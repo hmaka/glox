@@ -1,15 +1,14 @@
+import error
+import argv
+import gleam/io
 import lexer
 import prompt
-import gleam/io
-import argv
 
 pub fn main() {
-  case argv.load().arguments{
+  let exec_result = case argv.load().arguments {
     [file] -> lexer.scan(file)
-    [] -> prompt.run_prompt()  
-    _ -> io.println_error("Usage: glox <script>")
+    [] -> prompt.run_prompt()
+    _ -> Error(error.StringError("Usage: glox <script>"))
   }
+  io.debug(exec_result)
 }
-
-
-
