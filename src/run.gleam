@@ -1,6 +1,13 @@
+import error
 import gleam/io
+import token
 
-pub fn run(input:String)->Result(Nil,Nil){
-  io.println(input)
-  Ok(Nil)
+pub fn run(tokens: List(token.Token)) -> Result(Nil, error.RunError) {
+  case tokens {
+    [] -> Ok(Nil)
+    [t, ..rest] -> {
+      io.println(t.lexeme)
+      run(rest)
+    }
+  }
 }
