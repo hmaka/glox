@@ -1,3 +1,4 @@
+import lexer
 import error
 import gleam/erlang
 import gleam/io
@@ -10,12 +11,14 @@ pub fn run_prompt() {
 }
 
 fn prompt_loop() -> Result(Nil, error.RunError) {
-  use line: String <- result.try(
-    erlang.get_line(">") |> result.map_error(error.GetLineError),
-  )
-  use _ <- result.try(
-    run.run(line)
-    |> result.map_error(error.EmptyError),
-  )
-  prompt_loop()
+  let run_result = erlang.get_line("> ")
+  |> result.map_error(error.GetLineError)
+  |> result.try(lexer.scan)
+  |> result.try(run.run)
+
+  case run_result{
+    Ok(_) -> prompt_loop()
+    e -> e
+  }
+
 }
