@@ -58,6 +58,30 @@ fn tokenizer(
         [token.Token(token.LessEqual, "<=", scan_state.line), ..tokens],
         ScanState(..scan_state, current: scan_state.current + 1),
       )
+    ["!", ..rest] ->
+      tokenizer(
+        rest,
+        [token.Token(token.Bang, "!", scan_state.line), ..tokens],
+        ScanState(..scan_state, current: scan_state.current + 1),
+      )
+    ["=", ..rest] ->
+      tokenizer(
+        rest,
+        [token.Token(token.Equal, "=", scan_state.line), ..tokens],
+        ScanState(..scan_state, current: scan_state.current + 1),
+      )
+    [">", ..rest] ->
+      tokenizer(
+        rest,
+        [token.Token(token.Greater, ">", scan_state.line), ..tokens],
+        ScanState(..scan_state, current: scan_state.current + 1),
+      )
+    ["<", ..rest] ->
+      tokenizer(
+        rest,
+        [token.Token(token.Less, "<", scan_state.line), ..tokens],
+        ScanState(..scan_state, current: scan_state.current + 1),
+      )
     ["(", ..rest] ->
       tokenizer(
         rest,
