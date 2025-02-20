@@ -1,5 +1,5 @@
-import error
 import argv
+import error
 import gleam/io
 import lexer
 import prompt
