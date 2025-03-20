@@ -9,12 +9,7 @@ pub type LexicalError {
 }
 
 pub type ScanState {
-  ScanState(
-    start: Int,
-    current: Int,
-    line: Int,
-    scan_error_list: List(LexicalError),
-  )
+  ScanState(current: Int, line: Int, scan_error_list: List(LexicalError))
 }
 
 pub fn scan_file(file: String) -> Result(Nil, error.RunError) {
@@ -23,8 +18,25 @@ pub fn scan_file(file: String) -> Result(Nil, error.RunError) {
 }
 
 pub fn scan(raw_text: String) -> Result(List(token.Token), error.RunError) {
-  let scan_state = ScanState(start: 0, current: 0, line: 0, scan_error_list: [])
+  let scan_state = ScanState(current: 0, line: 0, scan_error_list: [])
   tokenizer(string.to_graphemes(raw_text), [], scan_state)
+}
+
+fn comment(
+  graphemes: List(String),
+  tokens: List(token.Token),
+  scan_state: ScanState,
+) -> Result(List(token.Token), error.RunError) {
+  case graphemes {
+    [] -> tokenizer(graphemes, tokens, scan_state)
+    ["\n", ..rest] ->
+      tokenizer(
+        rest,
+        tokens,
+        ScanState(..scan_state, line: scan_state.line + 1),
+      )
+    [_, ..rest] -> comment(rest, tokens, ScanState(..scan_state, current: scan_state.current + 1))
+  }
 }
 
 fn tokenizer(
@@ -39,24 +51,30 @@ fn tokenizer(
       tokenizer(
         rest,
         [token.Token(token.BangEqual, "!=", scan_state.line), ..tokens],
-        ScanState(..scan_state, current: scan_state.current + 1),
+        ScanState(..scan_state, current: scan_state.current + 2),
       )
     ["=", "=", ..rest] ->
       tokenizer(
         rest,
         [token.Token(token.EqualEqual, "==", scan_state.line), ..tokens],
-        ScanState(..scan_state, current: scan_state.current + 1),
+        ScanState(..scan_state, current: scan_state.current + 2),
       )
     [">", "=", ..rest] ->
       tokenizer(
         rest,
         [token.Token(token.GreaterEqual, ">=", scan_state.line), ..tokens],
-        ScanState(..scan_state, current: scan_state.current + 1),
+        ScanState(..scan_state, current: scan_state.current + 2),
       )
     ["<", "=", ..rest] ->
       tokenizer(
         rest,
         [token.Token(token.LessEqual, "<=", scan_state.line), ..tokens],
+        ScanState(..scan_state, current: scan_state.current + 2),
+      )
+    ["/", "/", ..rest] ->
+      comment(
+        rest,
+        tokens,
         ScanState(..scan_state, current: scan_state.current + 1),
       )
     ["!", ..rest] ->
