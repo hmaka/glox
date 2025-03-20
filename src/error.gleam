@@ -1,7 +1,7 @@
 import gleam/erlang
 
 pub type RunError {
-  EmptyError(Nil)
+  EmptyErr(Nil)
   GetLineError(erlang.GetLineError)
   StringError(String)
 }
