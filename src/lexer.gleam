@@ -44,9 +44,11 @@ fn tokenizer(
   tokens: List(token.Token),
   scan_state: ScanState,
 ) -> Result(List(token.Token), error.RunError) {
-  let _ = case graphemes {
-    [] ->
+   case graphemes {
+    [] ->{
+      io.debug(tokens)
       Ok(list.reverse([token.Token(token.Eof, "", scan_state.line), ..tokens]))
+      }
     ["!", "=", ..rest] ->
       tokenizer(
         rest,
@@ -179,6 +181,5 @@ fn tokenizer(
       )
     }
   }
-
-  Ok([])
+  
 }
