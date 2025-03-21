@@ -35,7 +35,12 @@ fn comment(
         tokens,
         ScanState(..scan_state, line: scan_state.line + 1),
       )
-    [_, ..rest] -> comment(rest, tokens, ScanState(..scan_state, current: scan_state.current + 1))
+    [_, ..rest] ->
+      comment(
+        rest,
+        tokens,
+        ScanState(..scan_state, current: scan_state.current + 1),
+      )
   }
 }
 
@@ -44,11 +49,10 @@ fn tokenizer(
   tokens: List(token.Token),
   scan_state: ScanState,
 ) -> Result(List(token.Token), error.RunError) {
-   case graphemes {
-    [] ->{
-      io.debug(tokens)
+  case graphemes {
+    [] ->
       Ok(list.reverse([token.Token(token.Eof, "", scan_state.line), ..tokens]))
-      }
+
     ["!", "=", ..rest] ->
       tokenizer(
         rest,
@@ -112,7 +116,7 @@ fn tokenizer(
     [")", ..rest] ->
       tokenizer(
         rest,
-        [token.Token(token.RightParen, "(", scan_state.line), ..tokens],
+        [token.Token(token.RightParen, ")", scan_state.line), ..tokens],
         ScanState(..scan_state, current: scan_state.current + 1),
       )
     ["[", ..rest] ->
@@ -169,6 +173,18 @@ fn tokenizer(
         [token.Token(token.Star, "*", scan_state.line), ..tokens],
         ScanState(..scan_state, current: scan_state.current + 1),
       )
+    ["\n", ..rest] ->
+      tokenizer(
+        rest,
+        tokens,
+        ScanState(..scan_state, line: scan_state.line + 1),
+      )
+    ["\r", ..rest] | ["\t", ..rest] | [" ", ..rest] ->
+      tokenizer(
+        rest,
+        tokens,
+        ScanState(..scan_state, current: scan_state.current + 1),
+      )
     [u, ..rest] -> {
       let err = LexicalError(scan_state.current, u)
       tokenizer(
@@ -181,5 +197,4 @@ fn tokenizer(
       )
     }
   }
-  
 }
