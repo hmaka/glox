@@ -44,6 +44,42 @@ fn comment(
   }
 }
 
+fn string(
+  graphemes: List(String),
+  tokens: List(token.Token),
+  scan_state: ScanState,
+  str: String,
+) -> Result(List(token.Token), error.RunError) {
+  case graphemes {
+    [] ->
+      tokenizer(
+        graphemes,
+        tokens,
+        ScanState(
+          ..scan_state,
+          scan_error_list: [
+            LexicalError(scan_state.line, "unclosed string"),
+            ..scan_state.scan_error_list
+          ],
+        ),
+      )
+    ["\"", ..rest] ->
+      tokenizer(
+        rest,
+        [token.Token(token.String, str, scan_state.line), ..tokens],
+        scan_state,
+      )
+    ["\n", ..rest] ->
+      string(
+        rest,
+        tokens,
+        ScanState(..scan_state, line: scan_state.line + 1),
+        str,
+      )
+    [x, ..rest] -> string(rest, tokens, scan_state, string.append(str, x))
+  }
+}
+
 fn tokenizer(
   graphemes: List(String),
   tokens: List(token.Token),
@@ -83,6 +119,7 @@ fn tokenizer(
         tokens,
         ScanState(..scan_state, current: scan_state.current + 1),
       )
+    ["\"", ..rest] -> string(rest, tokens, scan_state, "")
     ["!", ..rest] ->
       tokenizer(
         rest,
