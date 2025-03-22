@@ -31,7 +31,7 @@ pub fn scan_basic_test() {
     token.Token(token.Greater, ">", 0),
     token.Token(token.Less, "<", 0),
     token.Token(token.LeftParen, "(", 0),
-    token.Token(token.RightParen, ")", 0),
+    token.Token(token.RightParen,")", 0),
     token.Token(token.LeftBrace, "[", 0),
     token.Token(token.RightBrace, "]", 0),
     token.Token(token.Comma, ",", 0),
@@ -42,5 +42,18 @@ pub fn scan_basic_test() {
     token.Token(token.Slash, "/", 0),
     token.Token(token.Star, "*", 0),
     token.Token(token.Eof, "", 0),
+  ])
+}
+
+pub fn scan_line_test(){
+  let input = "! . \n ."
+  let res = lexer.scan(input)
+  res |> should.be_ok 
+  let res = result.unwrap(res,[])
+  res |> should.equal([
+    token.Token(token.Bang, "!", 0),
+    token.Token(token.Dot, ".", 0),
+    token.Token(token.Dot, ".", 1),
+    token.Token(token.Eof, "", 1),
   ])
 }
