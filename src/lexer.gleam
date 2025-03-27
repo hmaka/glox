@@ -1,4 +1,3 @@
-import gleam/option
 import error
 import gleam/io
 import gleam/list

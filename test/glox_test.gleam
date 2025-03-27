@@ -17,8 +17,8 @@ pub fn hello_world_test() {
 pub fn scan_basic_test() {
   let input = "!= == >= <= ! = > < ( ) [ ] , . - + ; / *"
   let res = lexer.scan(input)
+  let _ = res |> should.be_ok
 
-  res |> should.be_ok
   let res = result.unwrap(res, Ok([]))
   res
   |> should.equal(Ok([
@@ -48,7 +48,7 @@ pub fn scan_basic_test() {
 pub fn scan_line_test() {
   let input = "! . \n ."
   let res = lexer.scan(input)
-  res |> should.be_ok
+  let _ = res |> should.be_ok
   let res = result.unwrap(res, Ok([]))
   res
   |> should.equal(Ok([
@@ -62,7 +62,7 @@ pub fn scan_line_test() {
 pub fn scan_string_test() {
   let input = "! \"hi!\""
   let res = lexer.scan(input)
-  res |> should.be_ok
+  let _ = res |> should.be_ok
   let res = result.unwrap(res, Ok([]))
   res
   |> should.equal(Ok([
