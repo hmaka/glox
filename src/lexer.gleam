@@ -1,3 +1,4 @@
+import gleam/option
 import error
 import gleam/io
 import gleam/list
@@ -17,7 +18,7 @@ pub fn scan_file(file: String) -> Result(Nil, error.RunError) {
   Ok(Nil)
 }
 
-pub fn scan(raw_text: String) -> Result(List(token.Token), error.RunError) {
+pub fn scan(raw_text: String) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
   let scan_state = ScanState(current: 0, line: 0, scan_error_list: [])
   tokenizer(string.to_graphemes(raw_text), [], scan_state)
 }
@@ -26,7 +27,7 @@ fn comment(
   graphemes: List(String),
   tokens: List(token.Token),
   scan_state: ScanState,
-) -> Result(List(token.Token), error.RunError) {
+) -> Result(Result(List(token.Token),List(LexicalError)), error.RunError) {
   case graphemes {
     [] -> tokenizer(graphemes, tokens, scan_state)
     ["\n", ..rest] ->
@@ -49,7 +50,7 @@ fn string(
   tokens: List(token.Token),
   scan_state: ScanState,
   str: String,
-) -> Result(List(token.Token), error.RunError) {
+) -> Result(Result(List(token.Token),List(LexicalError)), error.RunError) {
   case graphemes {
     [] ->
       tokenizer(
@@ -84,10 +85,10 @@ fn tokenizer(
   graphemes: List(String),
   tokens: List(token.Token),
   scan_state: ScanState,
-) -> Result(List(token.Token), error.RunError) {
+) -> Result(Result(List(token.Token),List(LexicalError)), error.RunError) {
   case graphemes {
     [] ->
-      Ok(list.reverse([token.Token(token.Eof, "", scan_state.line), ..tokens]))
+      Ok(Ok(list.reverse([token.Token(token.Eof, "", scan_state.line), ..tokens])))
 
     ["!", "=", ..rest] ->
       tokenizer(
