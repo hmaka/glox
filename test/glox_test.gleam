@@ -67,3 +67,15 @@ pub fn scan_string_test() {
     token.Token(token.Eof, "", 0),
   ])
 }
+
+pub fn scan_number_test(){
+  let input = "123 12.3"
+  lexer.scan(input)
+  |> should.be_ok()
+  |> result.unwrap([])
+  |> should.equal([
+    token.Token(token.Number, "123", 0),
+    token.Token(token.Number, "12.3",0),
+    token.Token(token.Eof, "", 0),
+  ])
+}
