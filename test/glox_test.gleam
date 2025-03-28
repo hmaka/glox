@@ -16,12 +16,10 @@ pub fn hello_world_test() {
 
 pub fn scan_basic_test() {
   let input = "!= == >= <= ! = > < ( ) [ ] , . - + ; / *"
-  let res = lexer.scan(input)
-  let _ = res |> should.be_ok
-
-  let res = result.unwrap(res, Ok([]))
-  res
-  |> should.equal(Ok([
+  lexer.scan(input)
+  |> should.be_ok
+  |> result.unwrap([])
+  |> should.equal([
     token.Token(token.BangEqual, "!=", 0),
     token.Token(token.EqualEqual, "==", 0),
     token.Token(token.GreaterEqual, ">=", 0),
@@ -42,32 +40,30 @@ pub fn scan_basic_test() {
     token.Token(token.Slash, "/", 0),
     token.Token(token.Star, "*", 0),
     token.Token(token.Eof, "", 0),
-  ]))
+  ])
 }
 
 pub fn scan_line_test() {
   let input = "! . \n ."
-  let res = lexer.scan(input)
-  let _ = res |> should.be_ok
-  let res = result.unwrap(res, Ok([]))
-  res
-  |> should.equal(Ok([
+  lexer.scan(input)
+  |> should.be_ok
+  |> result.unwrap([])
+  |> should.equal([
     token.Token(token.Bang, "!", 0),
     token.Token(token.Dot, ".", 0),
     token.Token(token.Dot, ".", 1),
     token.Token(token.Eof, "", 1),
-  ]))
+  ])
 }
 
 pub fn scan_string_test() {
   let input = "! \"hi!\""
-  let res = lexer.scan(input)
-  let _ = res |> should.be_ok
-  let res = result.unwrap(res, Ok([]))
-  res
-  |> should.equal(Ok([
+  lexer.scan(input)
+  |> should.be_ok()
+  |> result.unwrap([])
+  |> should.equal([
     token.Token(token.Bang, "!", 0),
     token.Token(token.String, "hi!", 0),
     token.Token(token.Eof, "", 0),
-  ]))
+  ])
 }
