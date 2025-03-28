@@ -17,7 +17,9 @@ pub fn scan_file(file: String) -> Result(Nil, error.RunError) {
   Ok(Nil)
 }
 
-pub fn scan(raw_text: String) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
+pub fn scan(
+  raw_text: String,
+) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
   let scan_state = ScanState(current: 0, line: 0, scan_error_list: [])
   tokenizer(string.to_graphemes(raw_text), [], scan_state)
 }
@@ -26,7 +28,7 @@ fn comment(
   graphemes: List(String),
   tokens: List(token.Token),
   scan_state: ScanState,
-) -> Result(Result(List(token.Token),List(LexicalError)), error.RunError) {
+) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
   case graphemes {
     [] -> tokenizer(graphemes, tokens, scan_state)
     ["\n", ..rest] ->
@@ -49,7 +51,7 @@ fn string(
   tokens: List(token.Token),
   scan_state: ScanState,
   str: String,
-) -> Result(Result(List(token.Token),List(LexicalError)), error.RunError) {
+) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
   case graphemes {
     [] ->
       tokenizer(
@@ -80,14 +82,54 @@ fn string(
   }
 }
 
+fn number(
+  graphemes: List(String),
+  tokens: List(token.Token),
+  scan_state: ScanState,
+  dots: Int,
+  str: String,
+) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
+  case graphemes {
+    [] ->
+      tokenizer(
+        graphemes,
+        [token.Token(token.Number, str, scan_state.line), ..tokens],
+        scan_state,
+      )
+    ["\n", ..rest] ->
+      number(
+        rest,
+        tokens,
+        ScanState(..scan_state, line: scan_state.line + 1),
+        dots,
+        str,
+      )
+    ["0", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "0"))
+    ["1", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "1"))
+    ["2", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "2"))
+    ["3", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "3"))
+    ["4", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "4"))
+    ["5", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "5"))
+    ["6", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "6"))
+    ["7", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "7"))
+    ["8", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "8"))
+    ["9", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "9"))
+    
+  }
+}
+
 fn tokenizer(
   graphemes: List(String),
   tokens: List(token.Token),
   scan_state: ScanState,
-) -> Result(Result(List(token.Token),List(LexicalError)), error.RunError) {
+) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
   case graphemes {
     [] ->
-      Ok(Ok(list.reverse([token.Token(token.Eof, "", scan_state.line), ..tokens])))
+      Ok(
+        Ok(
+          list.reverse([token.Token(token.Eof, "", scan_state.line), ..tokens]),
+        ),
+      )
 
     ["!", "=", ..rest] ->
       tokenizer(
@@ -222,8 +264,24 @@ fn tokenizer(
         tokens,
         ScanState(..scan_state, current: scan_state.current + 1),
       )
+    ["0", ..]
+    | ["1", ..]
+    | ["2", ..]
+    | ["3", ..]
+    | ["4", ..]
+    | ["5", ..]
+    | ["6", ..]
+    | ["7", ..]
+    | ["8", ..]
+    | ["9", ..] -> {
+      number(graphemes, tokens, scan_state,0,"")
+    }
     [u, ..rest] -> {
-      let err = LexicalError(scan_state.current, u)
+      let err =
+        LexicalError(
+          scan_state.current,
+          string.append("unkown token encountered:", u),
+        )
       tokenizer(
         rest,
         tokens,
