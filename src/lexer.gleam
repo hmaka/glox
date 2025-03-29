@@ -104,17 +104,60 @@ fn number(
         dots,
         str,
       )
-    ["0", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "0"))
-    ["1", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "1"))
-    ["2", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "2"))
-    ["3", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "3"))
-    ["4", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "4"))
-    ["5", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "5"))
-    ["6", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "6"))
-    ["7", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "7"))
-    ["8", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "8"))
-    ["9", ..rest] -> number(rest, tokens, scan_state, dots, string.append(str, "9"))
-    
+    ["."] -> {
+      let err =
+        LexicalError(
+          scan_state.line,
+          "Number literals cannot terminate with '.' ",
+        )
+      number(
+        [],
+        tokens,
+        ScanState(
+          ..scan_state,
+          scan_error_list: [err, ..scan_state.scan_error_list],
+        ),
+        dots + 1,
+        str,
+      )
+    }
+
+    [".", ..rest] if dots == 0 ->
+      number(rest, tokens, scan_state, dots + 1, string.append(str, "."))
+    ["0", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "0"))
+    ["1", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "1"))
+    ["2", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "2"))
+    ["3", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "3"))
+    ["4", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "4"))
+    ["5", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "5"))
+    ["6", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "6"))
+    ["7", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "7"))
+    ["8", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "8"))
+    ["9", ..rest] ->
+      number(rest, tokens, scan_state, dots, string.append(str, "9"))
+    [x, ..rest] -> {
+      let err =
+        LexicalError(scan_state.line, string.append("Unexpected token: ", x))
+      number(
+        rest,
+        tokens,
+        ScanState(
+          ..scan_state,
+          scan_error_list: [err, ..scan_state.scan_error_list],
+        ),
+        dots,
+        str,
+      )
+    }
   }
 }
 
@@ -274,7 +317,7 @@ fn tokenizer(
     | ["7", ..]
     | ["8", ..]
     | ["9", ..] -> {
-      number(graphemes, tokens, scan_state,0,"")
+      number(graphemes, tokens, scan_state, 0, "")
     }
     [u, ..rest] -> {
       let err =
