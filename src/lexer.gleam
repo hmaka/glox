@@ -160,11 +160,18 @@ fn tokenizer(
 ) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
   case graphemes {
     [] ->
-      Ok(
-        Ok(
-          list.reverse([token.Token(token.Eof, "", scan_state.line), ..tokens]),
-        ),
-      )
+      case scan_state.scan_error_list {
+        [] ->
+          Ok(
+            Ok(
+              list.reverse([
+                token.Token(token.Eof, "", scan_state.line),
+                ..tokens
+              ]),
+            ),
+          )
+        _ -> Ok(Error(scan_state.scan_error_list))
+      }
 
     ["!", "=", ..rest] ->
       tokenizer(
