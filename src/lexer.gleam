@@ -104,24 +104,6 @@ fn number(
         dots,
         str,
       )
-    ["."] -> {
-      let err =
-        LexicalError(
-          scan_state.line,
-          "Number literals cannot terminate with '.' ",
-        )
-      number(
-        [],
-        tokens,
-        ScanState(
-          ..scan_state,
-          scan_error_list: [err, ..scan_state.scan_error_list],
-        ),
-        dots + 1,
-        str,
-      )
-    }
-
     [".", ..rest] if dots == 0 ->
       number(rest, tokens, scan_state, dots + 1, string.append(str, "."))
     ["0", ..rest] ->
@@ -144,18 +126,11 @@ fn number(
       number(rest, tokens, scan_state, dots, string.append(str, "8"))
     ["9", ..rest] ->
       number(rest, tokens, scan_state, dots, string.append(str, "9"))
-    [x, ..rest] -> {
-      let err =
-        LexicalError(scan_state.line, string.append("Unexpected token: ", x))
-      number(
-        rest,
-        tokens,
-        ScanState(
-          ..scan_state,
-          scan_error_list: [err, ..scan_state.scan_error_list],
-        ),
-        dots,
-        str,
+    _ -> {
+      tokenizer(
+        graphemes,
+        [token.Token(token.Number, str, scan_state.line), ..tokens],
+        scan_state,
       )
     }
   }
