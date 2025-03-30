@@ -1,4 +1,5 @@
 import error
+import gleam/float
 import gleam/io
 import gleam/list
 import gleam/string
@@ -90,12 +91,30 @@ fn number(
   str: String,
 ) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
   case graphemes {
-    [] ->
-      tokenizer(
-        graphemes,
-        [token.Token(token.Number, str, scan_state.line), ..tokens],
-        scan_state,
-      )
+    [] -> {
+      let num = float.parse(str)
+
+      case num {
+        Ok(n) ->
+          tokenizer(
+            graphemes,
+            [token.NumberToken(token.Number, n, scan_state.line), ..tokens],
+            scan_state,
+          )
+        Error(Nil) ->
+          tokenizer(
+            graphemes,
+            tokens,
+            ScanState(
+              ..scan_state,
+              scan_error_list: [
+                LexicalError(scan_state.line, "Could not parse number"),
+                ..scan_state.scan_error_list
+              ],
+            ),
+          )
+      }
+    }
     ["\n", ..rest] ->
       number(
         rest,
@@ -144,11 +163,35 @@ fn number(
     ["9", ..rest] ->
       number(rest, tokens, scan_state, dots, string.append(str, "9"))
     _ -> {
-      tokenizer(
-        graphemes,
-        [token.Token(token.Number, str, scan_state.line), ..tokens],
-        scan_state,
-      )
+      let str = case string.contains(str, ".") {
+        True -> str
+        False -> string.append(str, ".0")
+      }
+      let num = float.parse(str)
+
+      case num {
+        Ok(n) ->
+          tokenizer(
+            graphemes,
+            [token.NumberToken(token.Number, n, scan_state.line), ..tokens],
+            scan_state,
+          )
+        Error(Nil) ->
+          tokenizer(
+            graphemes,
+            tokens,
+            ScanState(
+              ..scan_state,
+              scan_error_list: [
+                LexicalError(
+                  scan_state.line,
+                  string.append("Could not parse number: ", str),
+                ),
+                ..scan_state.scan_error_list
+              ],
+            ),
+          )
+      }
     }
   }
 }

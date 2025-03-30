@@ -73,8 +73,8 @@ pub fn scan_number_test() {
   |> should.be_ok
   |> should.be_ok
   |> should.equal([
-    token.Token(token.Number, "123", 0),
-    token.Token(token.Number, "12.3", 0),
+    token.NumberToken(token.Number, 123., 0),
+    token.NumberToken(token.Number, 12.3, 0),
     token.Token(token.Eof, "", 0),
   ])
 }

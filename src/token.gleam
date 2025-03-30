@@ -1,6 +1,6 @@
-
-pub type Token{
-  Token(token_type: TokenType, lexeme:String, line:Int)
+pub type Token {
+  Token(token_type: TokenType, lexeme: String, line: Int)
+  NumberToken(token_type: TokenType, number: Float, line: Int)
 }
 
 pub type TokenType {
