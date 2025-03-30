@@ -104,8 +104,25 @@ fn number(
         dots,
         str,
       )
-    [".", ..rest] if dots == 0 ->
-      number(rest, tokens, scan_state, dots + 1, string.append(str, "."))
+    [".", "0", ..]
+      | [".", "1", ..]
+      | [".", "2", ..]
+      | [".", "3", ..]
+      | [".", "4", ..]
+      | [".", "5", ..]
+      | [".", "6", ..]
+      | [".", "7", ..]
+      | [".", "8", ..]
+      | [".", "9", ..]
+      if dots == 0
+    ->
+      number(
+        list.drop(graphemes, 1),
+        tokens,
+        scan_state,
+        dots + 1,
+        string.append(str, "."),
+      )
     ["0", ..rest] ->
       number(rest, tokens, scan_state, dots, string.append(str, "0"))
     ["1", ..rest] ->

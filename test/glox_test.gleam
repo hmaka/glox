@@ -1,4 +1,3 @@
-import gleam/result
 import gleeunit
 import gleeunit/should
 import lexer
@@ -18,7 +17,7 @@ pub fn scan_basic_test() {
   let input = "!= == >= <= ! = > < ( ) [ ] , . - + ; / *"
   lexer.scan(input)
   |> should.be_ok
-  |> result.unwrap([])
+  |> should.be_ok
   |> should.equal([
     token.Token(token.BangEqual, "!=", 0),
     token.Token(token.EqualEqual, "==", 0),
@@ -47,7 +46,7 @@ pub fn scan_line_test() {
   let input = "! . \n ."
   lexer.scan(input)
   |> should.be_ok
-  |> result.unwrap([])
+  |> should.be_ok
   |> should.equal([
     token.Token(token.Bang, "!", 0),
     token.Token(token.Dot, ".", 0),
@@ -59,8 +58,8 @@ pub fn scan_line_test() {
 pub fn scan_string_test() {
   let input = "! \"hi!\""
   lexer.scan(input)
-  |> should.be_ok()
-  |> result.unwrap([])
+  |> should.be_ok
+  |> should.be_ok
   |> should.equal([
     token.Token(token.Bang, "!", 0),
     token.Token(token.String, "hi!", 0),
@@ -68,14 +67,23 @@ pub fn scan_string_test() {
   ])
 }
 
-pub fn scan_number_test(){
+pub fn scan_number_test() {
   let input = "123 12.3"
   lexer.scan(input)
-  |> should.be_ok()
-  |> result.unwrap([])
+  |> should.be_ok
+  |> should.be_ok
   |> should.equal([
     token.Token(token.Number, "123", 0),
-    token.Token(token.Number, "12.3",0),
+    token.Token(token.Number, "12.3", 0),
     token.Token(token.Eof, "", 0),
   ])
 }
+
+// Don't know how this test should behave yet.
+// pub fn scan_invalid_number_test() {
+//   let input = ".123 123."
+//   lexer.scan(input)
+//   |> should.be_ok
+//   |> should.be_error
+//   |> should.equal([])
+// }
