@@ -67,18 +67,25 @@ pub fn scan_string_test() {
   ])
 }
 
+pub fn scan_unclosed_string_test() {
+  let input = "! \"hi!"
+  lexer.scan(input)
+  |> should.be_ok
+  |> should.be_error
+  |> should.equal([lexer.LexicalError(0, "unclosed string")])
+}
+
 pub fn scan_number_test() {
   let input = "123 12.3"
   lexer.scan(input)
   |> should.be_ok
   |> should.be_ok
   |> should.equal([
-    token.NumberToken(token.Number, 123., 0),
+    token.NumberToken(token.Number, 123.0, 0),
     token.NumberToken(token.Number, 12.3, 0),
     token.Token(token.Eof, "", 0),
   ])
 }
-
 // Don't know how this test should behave yet.
 // pub fn scan_invalid_number_test() {
 //   let input = ".123 123."
