@@ -91,30 +91,6 @@ fn number(
   str: String,
 ) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
   case graphemes {
-    [] -> {
-      let num = float.parse(str)
-
-      case num {
-        Ok(n) ->
-          tokenizer(
-            graphemes,
-            [token.NumberToken(token.Number, n, scan_state.line), ..tokens],
-            scan_state,
-          )
-        Error(Nil) ->
-          tokenizer(
-            graphemes,
-            tokens,
-            ScanState(
-              ..scan_state,
-              scan_error_list: [
-                LexicalError(scan_state.line, "Could not parse number"),
-                ..scan_state.scan_error_list
-              ],
-            ),
-          )
-      }
-    }
     ["\n", ..rest] ->
       number(
         rest,
