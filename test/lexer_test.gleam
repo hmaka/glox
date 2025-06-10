@@ -80,11 +80,18 @@ pub fn scan_number_test() {
     token.Token(token.Eof, "", 0),
   ])
 }
-// Don't know how this test should behave yet.
-// pub fn scan_invalid_number_test() {
-//   let input = ".123"
-//   lexer.scan(input)
-//   |> should.be_ok
-//   |> should.be_error
-//   |> should.equal([])
-// }
+
+// This is not a valid number but shouldn't error here. 
+// It should error at the next stage when we try to "method call" 
+// on this on a number Token.
+pub fn scan_invalid_number_test() {
+  let input = "123."
+  lexer.scan(input)
+  |> should.be_ok
+  |> should.be_ok
+  |> should.equal([
+    token.NumberToken(token.Number, 123.0, 0),
+    token.Token(token.Dot, ".", 0),
+    token.Token(token.Eof, "", 0),
+  ])
+}
