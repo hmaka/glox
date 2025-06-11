@@ -95,3 +95,18 @@ pub fn scan_invalid_number_test() {
     token.Token(token.Eof, "", 0),
   ])
 }
+
+// This is not a valid number but shouldn't error here. 
+// It should error at the next stage when we try to "method call" 
+// on this on a nonexistent Token.
+pub fn scan_invalid_number_2_test() {
+  let input = ".123"
+  lexer.scan(input)
+  |> should.be_ok
+  |> should.be_ok
+  |> should.equal([
+    token.Token(token.Dot, ".", 0),
+    token.NumberToken(token.Number, 123.0, 0),
+    token.Token(token.Eof, "", 0),
+  ])
+}
