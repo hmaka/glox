@@ -172,6 +172,493 @@ fn number(
   }
 }
 
+pub fn identifier_or_reserved_word(
+  graphemes: List(String),
+  tokens: List(token.Token),
+  scan_state: ScanState,
+  word: String,
+) -> Result(Result(List(token.Token), List(LexicalError)), error.RunError) {
+  case graphemes {
+    ["a", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "a"),
+      )
+    ["b", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "b"),
+      )
+    ["c", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "c"),
+      )
+    ["d", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "d"),
+      )
+    ["e", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "e"),
+      )
+    ["f", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "f"),
+      )
+    ["g", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "g"),
+      )
+    ["h", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "h"),
+      )
+    ["i", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "i"),
+      )
+    ["j", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "j"),
+      )
+    ["k", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "k"),
+      )
+    ["l", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "l"),
+      )
+    ["m", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "m"),
+      )
+    ["n", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "n"),
+      )
+    ["o", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "o"),
+      )
+    ["p", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "p"),
+      )
+    ["q", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "q"),
+      )
+    ["r", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "r"),
+      )
+    ["s", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "s"),
+      )
+    ["t", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "t"),
+      )
+    ["u", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "u"),
+      )
+    ["v", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "v"),
+      )
+    ["w", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "w"),
+      )
+    ["x", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "x"),
+      )
+    ["y", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "y"),
+      )
+    ["z", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "z"),
+      )
+    ["A", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "A"),
+      )
+    ["B", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "B"),
+      )
+    ["C", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "C"),
+      )
+    ["D", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "D"),
+      )
+    ["E", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "E"),
+      )
+    ["F", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "F"),
+      )
+    ["G", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "G"),
+      )
+    ["H", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "H"),
+      )
+    ["I", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "I"),
+      )
+    ["J", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "J"),
+      )
+    ["K", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "K"),
+      )
+    ["L", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "L"),
+      )
+    ["M", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "M"),
+      )
+    ["N", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "N"),
+      )
+    ["O", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "O"),
+      )
+    ["P", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "P"),
+      )
+    ["Q", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "Q"),
+      )
+    ["R", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "R"),
+      )
+    ["S", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "S"),
+      )
+    ["T", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "T"),
+      )
+    ["U", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "U"),
+      )
+    ["V", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "V"),
+      )
+    ["W", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "W"),
+      )
+    ["X", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "X"),
+      )
+    ["Y", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "Y"),
+      )
+    ["Z", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "Z"),
+      )
+    ["_", ..rest] ->
+      identifier_or_reserved_word(
+        rest,
+        tokens,
+        scan_state,
+        string.append(word, "_"),
+      )
+    _ -> {
+      case word {
+        "and" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.And, "and", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "class" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Class, "class", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "else" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Else, "else", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "false" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.FALSE, "false", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "for" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.For, "for", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "fun" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Fun, "fun", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "if" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.If, "if", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "nil" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Nil, "nil", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "or" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Or, "or", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "print" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Print, "print", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "return" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Return, "return", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "super" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Super, "super", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "this" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.This, "this", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "true" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.TRUE, "true", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "var" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Var, "var", scan_state.line), ..tokens],
+            scan_state,
+          )
+        "while" ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.While, "while", scan_state.line), ..tokens],
+            scan_state,
+          )
+        _ ->
+          tokenizer(
+            graphemes,
+            [token.Token(token.Identifier, word, scan_state.line), ..tokens],
+            scan_state,
+          )
+      }
+    }
+  }
+}
+
 fn tokenizer(
   graphemes: List(String),
   tokens: List(token.Token),
@@ -336,6 +823,62 @@ fn tokenizer(
     | ["8", ..]
     | ["9", ..] -> {
       number(graphemes, tokens, scan_state, 0, "")
+    }
+    ["a", ..]
+    | ["a", ..]
+    | ["b", ..]
+    | ["c", ..]
+    | ["d", ..]
+    | ["e", ..]
+    | ["f", ..]
+    | ["g", ..]
+    | ["h", ..]
+    | ["i", ..]
+    | ["j", ..]
+    | ["k", ..]
+    | ["l", ..]
+    | ["m", ..]
+    | ["n", ..]
+    | ["o", ..]
+    | ["p", ..]
+    | ["q", ..]
+    | ["r", ..]
+    | ["s", ..]
+    | ["t", ..]
+    | ["u", ..]
+    | ["v", ..]
+    | ["w", ..]
+    | ["x", ..]
+    | ["y", ..]
+    | ["z", ..]
+    | ["A", ..]
+    | ["B", ..]
+    | ["C", ..]
+    | ["D", ..]
+    | ["E", ..]
+    | ["F", ..]
+    | ["G", ..]
+    | ["H", ..]
+    | ["I", ..]
+    | ["J", ..]
+    | ["K", ..]
+    | ["L", ..]
+    | ["M", ..]
+    | ["N", ..]
+    | ["O", ..]
+    | ["P", ..]
+    | ["Q", ..]
+    | ["R", ..]
+    | ["S", ..]
+    | ["T", ..]
+    | ["U", ..]
+    | ["V", ..]
+    | ["W", ..]
+    | ["X", ..]
+    | ["Y", ..]
+    | ["Z", ..]
+    | ["_", ..] -> {
+      identifier_or_reserved_word(graphemes, tokens, scan_state, "")
     }
     [u, ..rest] -> {
       let err =
