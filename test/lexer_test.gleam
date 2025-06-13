@@ -153,3 +153,15 @@ pub fn scan_reserved_words_test() {
     token.Token(token.Eof, "", 16),
   ])
 }
+
+pub fn scan_identifer_test() {
+  let input = "variable_name"
+  lexer.scan(input)
+  |> should.be_ok
+  |> should.be_ok
+  |> should.equal([
+    token.Token(token.Identifier, "variable_name", 0),
+    token.Token(token.Eof, "", 0),
+  ])
+}
+
