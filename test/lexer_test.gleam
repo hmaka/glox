@@ -110,3 +110,46 @@ pub fn scan_invalid_number_2_test() {
     token.Token(token.Eof, "", 0),
   ])
 }
+
+pub fn scan_reserved_words_test() {
+  let input =
+    "and
+    class
+    else 
+    false 
+    for 
+    fun 
+    if 
+    nil 
+    or 
+    print 
+    return 
+    super 
+    this 
+    true 
+    var 
+    while
+    "
+  lexer.scan(input)
+  |> should.be_ok
+  |> should.be_ok
+  |> should.equal([
+    token.Token(token.And, "and", 0),
+    token.Token(token.Class, "class", 1),
+    token.Token(token.Else, "else", 2),
+    token.Token(token.FALSE, "false", 3),
+    token.Token(token.For, "for", 4),
+    token.Token(token.Fun, "fun", 5),
+    token.Token(token.If, "if", 6),
+    token.Token(token.Nil, "nil", 7),
+    token.Token(token.Or, "or", 8),
+    token.Token(token.Print, "print", 9),
+    token.Token(token.Return, "return", 10),
+    token.Token(token.Super, "super", 11),
+    token.Token(token.This, "this", 12),
+    token.Token(token.TRUE, "true", 13),
+    token.Token(token.Var, "var", 14),
+    token.Token(token.While, "while", 15),
+    token.Token(token.Eof, "", 16),
+  ])
+}
