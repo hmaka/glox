@@ -165,3 +165,13 @@ pub fn scan_identifer_test() {
   ])
 }
 
+pub fn scan_identifer_maximal_munch_test() {
+  let input = "returnn"
+  lexer.scan(input)
+  |> should.be_ok
+  |> should.be_ok
+  |> should.equal([
+    token.Token(token.Identifier, "returnn", 0),
+    token.Token(token.Eof, "", 0),
+  ])
+}
