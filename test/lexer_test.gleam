@@ -175,3 +175,19 @@ pub fn scan_identifer_maximal_munch_test() {
     token.Token(token.Eof, "", 0),
   ])
 }
+
+pub fn scan_example_method_call_test() {
+  let input = "some_class.method(some_variable)"
+  lexer.scan(input)
+  |> should.be_ok
+  |> should.be_ok
+  |> should.equal([
+    token.Token(token.Identifier, "some_class", 0),
+    token.Token(token.Dot, ".", 0),
+    token.Token(token.Identifier, "method", 0),
+    token.Token(token.LeftParen, "(", 0),
+    token.Token(token.Identifier, "some_variable", 0),
+    token.Token(token.RightParen, ")", 0),
+    token.Token(token.Eof, "", 0),
+  ])
+}
