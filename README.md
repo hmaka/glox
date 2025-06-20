@@ -1,7 +1,5 @@
 # glox
-
-[![Package Version](https://img.shields.io/hexpm/v/glox)](https://hex.pm/packages/glox)
-[![Hex Docs](https://img.shields.io/badge/hex-docs-ffaff3)](https://hexdocs.pm/glox/)
+# This is an implementation of the lox programming language from Crafting Interpreters in the Gleam programming language.
 
 ```sh
 gleam add glox@1
