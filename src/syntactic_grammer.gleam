@@ -20,14 +20,12 @@ pub type Operation {
 }
 
 pub type Expression {
-  Literal
-  Binary
+  LiteralExp(literal: Literal)
+  BinaryExp(binary: Binary)
 }
 
 pub type Binary {
-  Left(Expression)
-  Right(Expression)
-  Operator(Operation)
+  Binary(left: Expression, right: Expression, operator: Operation)
 }
 
 pub fn to_string(operation: Operation) -> String {
