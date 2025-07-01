@@ -22,6 +22,12 @@ pub type Operation {
 pub type Expression {
   LiteralExp(literal: Literal)
   BinaryExp(binary: Binary)
+  UnaryExp(unary: Unary)
+}
+
+pub type Unary {
+  NotUnary(expression: Expression)
+  NegativeUnary(expression: Expression)
 }
 
 pub type Binary {
