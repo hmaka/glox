@@ -28,6 +28,10 @@ pub type Binary {
   Binary(left: Expression, right: Expression, operator: Operation)
 }
 
+pub type Grouping {
+  Expression(expression: Expression)
+}
+
 pub fn to_string(operation: Operation) -> String {
   case operation {
     Equal -> "=="
