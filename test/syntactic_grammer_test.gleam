@@ -1,4 +1,3 @@
-import gleam/io
 import gleeunit
 import syntactic_grammer
 
@@ -17,5 +16,5 @@ pub fn binary_print_test() {
       right: syntactic_grammer.LiteralExp(literal: syntactic_grammer.False),
       operator: syntactic_grammer.Equal,
     ))
-  io.debug(exp)
+  echo exp
 }

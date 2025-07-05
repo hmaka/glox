@@ -20,7 +20,7 @@ fn prompt_loop() -> Result(Nil, error.RunError) {
     Ok(Ok(tokens)) -> run.run(tokens)
     Ok(Error(lex_errors)) -> {
       io.print("There was a syntax error in your code")
-      io.debug(lex_errors)
+      echo lex_errors
       prompt_loop()
     }
     Error(e) -> Error(e)
